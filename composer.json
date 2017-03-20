@@ -1,0 +1,17 @@
+{
+	"name":        "swissspidy/trac-embeds",
+	"description": "Allows embedding tickets from a Trac instance via WordPress",
+	"version":     "1.0.0",
+	"type":        "wordpress-plugin",
+	"license":     "GPL-2.0+",
+	"authors":     [
+		{
+			"name":     "Pascal Birchler",
+			"email":    "pascal@required.com",
+			"homepage": "https://pascalbirchler.com/"
+		}
+	],
+	"require":     {
+		"composer/installers": "~1.0"
+	}
+}
