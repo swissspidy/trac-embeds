@@ -40,7 +40,7 @@ remove_action( 'embed_footer', 'print_embed_sharing_dialog' );
 
 	<div class="wp-embed-footer">
 		<div class="wp-embed-site-title">
-			<a href="<?php echo esc_url( explode('/ticket', $url )[0] ); ?>" target="_top">
+			<a href="<?php echo esc_url( $trac_url ); ?>" target="_top">
 				<img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . '/assets/trac-logo.svg' ); ?>" width="32" height="32" alt="" class="wp-embed-site-icon"/>
 				<span><?php echo esc_html( $trac_title ); ?></span>
 			</a>
