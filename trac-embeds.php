@@ -18,10 +18,20 @@
 /**
  * Returns a list of trac sites that can be embedded.
  *
+ * @since 1.0.0
+ * @access public
+ *
  * @return array Enabled trac sites. Key is the URL, value is the title.
  */
 function trac_embeds_get_sites() {
-	return apply_filters( 'trac-embeds-sites', [
+	/**
+	 * Filters the list of trac sites that can be embedded.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $sites Enabled trac sites. Key is the URL, value is the title.
+	 */
+	return apply_filters( 'trac_embeds_sites', [
 		'https://core.trac.wordpress.org' => __( 'WordPress Core Trac' ),
 		'https://meta.trac.wordpress.org' => __( 'WordPress Meta Trac' ),
 	] );
@@ -38,7 +48,7 @@ function trac_embeds_get_sites() {
  * @return int The modified post ID.
  */
 function trac_embeds_oembed_request_post_id( $post_id, $url ) {
-	$trac_url = explode('/ticket', $url )[0];
+	$trac_url = explode( '/ticket', $url )[0];
 
 	if ( ! trac_embeds_get_post_id() || ! array_key_exists( $trac_url, trac_embeds_get_sites() ) ) {
 		return $post_id;
@@ -53,7 +63,7 @@ function trac_embeds_oembed_request_post_id( $post_id, $url ) {
 
 	// Appends the trac URL to the ticket for use in the embed template.
 	add_filter( 'post_embed_url', function ( $embed_url, $post ) use ( $url ) {
-		if ( $post->ID === (int) trac_embeds_get_post_id() ) {
+		if ( (int) trac_embeds_get_post_id() === $post->ID ) {
 			return add_query_arg( 'url', $url, $embed_url );
 		}
 
@@ -62,7 +72,7 @@ function trac_embeds_oembed_request_post_id( $post_id, $url ) {
 
 	// Replaces the post title with the ticket title everywhere.
 	add_filter( 'the_title', function ( $permalink, $post_id ) use ( $ticket ) {
-		if ( $post_id === (int) trac_embeds_get_post_id() ) {
+		if ( (int) trac_embeds_get_post_id() === $post_id ) {
 			return $ticket['summary'];
 		}
 
@@ -76,7 +86,7 @@ function trac_embeds_oembed_request_post_id( $post_id, $url ) {
 
 	// Adds ticket info to oEmbed response data.
 	add_filter( 'oembed_response_data', function ( $data, $post ) use ( $ticket, $url, $trac_url, $trac_title ) {
-		if ( $post->ID === (int) trac_embeds_get_post_id() ) {
+		if ( (int) trac_embeds_get_post_id() === $post->ID ) {
 			$data['provider_name'] = $trac_title;
 			$data['provider_url']  = $trac_url;
 			$data['author_name']   = $ticket['reporter'];
@@ -106,7 +116,7 @@ function trac_embeds_embed_template( $template ) {
 		return $template;
 	}
 
-	$ticket = trac_embeds_get_ticket_data( sanitize_text_field( $_GET['url']  ) );
+	$ticket = trac_embeds_get_ticket_data( sanitize_text_field( $_GET['url'] ) );
 
 	if ( ! empty( $ticket ) ) {
 		return plugin_dir_path( __FILE__ ) . '/inc/embed.php';
