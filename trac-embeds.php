@@ -145,6 +145,9 @@ function trac_embeds_get_ticket_data( $url ) {
 		if ( empty( $data ) ) {
 			$data = [];
 		} else {
+			// Remove BOM.
+			$data    = str_replace( "\xEF\xBB\xBF", '', $data );
+			$data    = sanitize_textarea_field( $data );
 			$data    = str_getcsv( $data, "\n" );
 			$headers = str_getcsv( array_shift( $data ) );
 			$content = str_getcsv( implode( "\n", $data ) );
