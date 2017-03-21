@@ -27,16 +27,99 @@ remove_action( 'embed_footer', 'print_embed_sharing_dialog' );
 	/** This action is documented in wp-includes/theme-compat/header-embed.php */
 	do_action( 'embed_head' );
 	?>
+	<style type="text/css">
+		p.wp-embed-heading {
+			font-size: 20px;
+			font-weight: 400;
+		}
+
+		.wp-embed-heading .trac-embed-ticket-id {
+			font-family: monospace, serif;
+			font-weight: normal;
+			color: #0073aa;
+		}
+
+		.trac-embed-info {
+			column-count: 2;
+			margin: 0;
+		}
+
+		.trac-embed-info dt {
+			font-weight: bold;
+		}
+
+		.trac-embed-info dd {
+			margin: 0 0 10px;
+			break-before: avoid;
+			-webkit-column-break-before: avoid;
+			column-break-before: avoid;
+		}
+
+		.trac-embed-tag-list {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			line-height: 2;
+		}
+
+		.trac-embed-tag {
+			background: #eee;
+			padding: 2px 5px;
+			border-radius: 3px;
+			display: inline;
+			margin: 0 5px 0 0;
+		}
+	</style>
 </head>
 <body <?php body_class(); ?>>
 <div class="wp-embed">
 	<p class="wp-embed-heading">
+		<a href="<?php echo esc_url( $ticket_url ); ?>" target="_top" class="trac-embed-ticket-id"><?php echo esc_html( '#' . $ticket['id'] ); ?></a>
 		<a href="<?php echo esc_url( $ticket_url ); ?>" target="_top">
 			<?php echo esc_html( $ticket['summary'] ); ?>
 		</a>
 	</p>
 
-	<div class="wp-embed-excerpt"><?php echo wpautop( esc_html( $ticket['description'] ) ); ?></div>
+	<div class="wp-embed-excerpt">
+		<dl class="trac-embed-info">
+			<dt><?php _e( 'Type', 'trac-embeds' ); ?></dt>
+			<dd><?php echo esc_html( $ticket['type'] ); ?></dd>
+			<?php if ( empty( $ticket['focuses'] ) ) : ?>
+				<dt><?php _e( 'Component', 'trac-embeds' ); ?></dt>
+				<dd><?php echo esc_html( $ticket['component'] ); ?></dd>
+			<?php else : ?>
+				<dt><?php _e( 'Component (Focuses)', 'trac-embeds' ); ?></dt>
+				<dd>
+					<?php echo esc_html( $ticket['component'] ); ?>
+					<ul class="trac-embed-tag-list">
+						<?php foreach ( explode( ',', $ticket['focuses'] ) as $focus ) : ?>
+							<li class="trac-embed-tag"><?php echo esc_html( trim( $focus ) ); ?></li>
+						<?php endforeach; ?>
+					</ul>
+				</dd>
+			<?php endif; ?>
+			<?php if ( ! empty( $ticket['milestone'] ) ) : ?>
+				<dt><?php _e( 'Milestone', 'trac-embeds' ); ?></dt>
+				<dd><?php echo esc_html( $ticket['milestone'] ); ?></dd>
+			<?php endif; ?>
+			<dt><?php _e( 'Status', 'trac-embeds' ); ?></dt>
+			<dd><?php echo esc_html( $ticket['status'] ); ?></dd>
+			<?php if ( ! empty( $ticket['version'] ) ) : ?>
+				<dt><?php _e( 'Version', 'trac-embeds' ); ?></dt>
+				<dd><?php echo esc_html( $ticket['version'] ); ?></dd>
+			<?php endif; ?>
+			<?php if ( ! empty( $ticket['keywords'] ) ) : ?>
+				<dt><?php _e( 'Keywords', 'trac-embeds' ); ?></dt>
+				<dd>
+					<ul class="trac-embed-tag-list">
+						<?php foreach ( explode( ' ', $ticket['keywords'] ) as $keyword ) : ?>
+							<li class="trac-embed-tag"><?php echo esc_html( trim( $keyword ) ); ?></li>
+						<?php endforeach; ?>
+					</ul>
+				</dd>
+			<?php endif; ?>
+		</dl>
+	</div>
 
 	<div class="wp-embed-footer">
 		<div class="wp-embed-site-title">
