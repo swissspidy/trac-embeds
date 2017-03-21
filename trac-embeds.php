@@ -1,5 +1,7 @@
 <?php
 /**
+ * Trac Embeds.
+ *
  * @wordpress-plugin
  *
  * Plugin Name: Trac Embeds
@@ -166,6 +168,8 @@ function trac_embeds_get_ticket_data( $url ) {
  *
  * @since 1.0.0
  * @access public
+ *
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  *
  * @param array  $caps    The user's actual capabilities.
  * @param string $cap     Capability name.

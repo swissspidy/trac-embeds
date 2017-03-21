@@ -27,14 +27,14 @@ class Test_Trac_Embeds extends WP_UnitTestCase {
 		$this->assertNotEquals( 0, get_option( 'trac_embeds_post_id' ) );
 	}
 
-	public function test_trac_embeds_uninstall(  ) {
+	public function test_trac_embeds_uninstall() {
 		trac_embeds_create_dummy_post();
 		trac_embeds_uninstall();
 
 		$this->assertFalse( get_option( 'trac_embeds_post_id' ) );
 	}
 
-	function test_request_without_dummy_post() {
+	public function test_request_without_dummy_post() {
 		$request = new WP_REST_Request( 'GET', '/oembed/1.0/embed' );
 		$request->set_param( 'url', 'https://core.trac.wordpress.org/ticket/40000' );
 
