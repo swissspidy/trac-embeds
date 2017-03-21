@@ -32,7 +32,7 @@ remove_action( 'embed_footer', 'print_embed_sharing_dialog' );
 <div class="wp-embed">
 	<p class="wp-embed-heading">
 		<a href="<?php echo esc_url( $ticket_url ); ?>" target="_top">
-			<?php echo esc_html(  $ticket['summary'] ); ?>
+			<?php echo esc_html( $ticket['summary'] ); ?>
 		</a>
 	</p>
 
